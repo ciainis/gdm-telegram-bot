@@ -25,7 +25,7 @@ const options = {
 
 // for deployment
 const bot = new TelegramBot(BOT_KEY, options);
-bot.setWebHook(`${APP_URL}/bot${token}`);
+bot.setWebHook(`${APP_URL}/bot${BOT_KEY}`);
 
 bot.on('message', msg => {
   if (msg.chat.id == MY_CHAT_ID || msg.chat.id == AC_CHAT_ID) {
