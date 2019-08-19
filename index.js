@@ -28,26 +28,26 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-bot.on('message', msg => {
-  bot.sendMessage(msg.chat.id, 'yo!');
-});
-
 // bot.on('message', msg => {
-//   if (msg.text === 'gianni') {
-//     axios
-//       .get('https://www.googleapis.com/customsearch/v1', {
-//         params: {
-//           key: api_key,
-//           cx: search_engine_id,
-//           q: 'gianni de michelis',
-//           searchType: 'image',
-//           num: 100
-//         }
-//       })
-//       .then(({ data }) => {
-//         bot.sendMessage(msg.chat.id, 'yo!');
-//         bot.sendPhoto(msg.chat.id, data.items[getRandomInt(100)].link);
-//       })
-//       .catch(err => console.log(err));
-//   }
+//   bot.sendMessage(msg.chat.id, 'yo!');
 // });
+
+bot.on('message', msg => {
+  if (msg.text === 'gianni') {
+    axios
+      .get('https://www.googleapis.com/customsearch/v1', {
+        params: {
+          key: api_key,
+          cx: search_engine_id,
+          q: 'gianni de michelis',
+          searchType: 'image',
+          num: 10
+        }
+      })
+      .then(({ data }) => {
+        bot.sendMessage(msg.chat.id, 'yo!');
+        bot.sendPhoto(msg.chat.id, data.items[getRandomInt(10)].link);
+      })
+      .catch(err => console.log(err));
+  }
+});
