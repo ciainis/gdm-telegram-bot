@@ -9,7 +9,7 @@ const url = process.env.APP_URL;
 const api_key = process.env.SEARCH_API_KEY;
 const search_engine_id = process.env.SEARCH_ID;
 
-const getRandomQuote = require('/quotes');
+const getRandomQuote = require('./quotes');
 
 const options = {
   webHook: {
