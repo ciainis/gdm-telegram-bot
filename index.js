@@ -1,15 +1,18 @@
 const dotenv = require('dotenv');
 dotenv.config();
-
 const axios = require('axios');
-
 const TelegramBot = require('node-telegram-bot-api');
-const token = process.env.BOT_KEY;
-const url = process.env.APP_URL;
-const api_key = process.env.SEARCH_API_KEY;
-const search_engine_id = process.env.SEARCH_ID;
 
-const getRandomQuote = require('./quotes');
+const {
+  BOT_KEY,
+  APP_URL,
+  SEARCH_API_KEY,
+  SEARCH_ID,
+  AC_CHAT_ID,
+  MY_CHAT_ID
+} = process.env;
+
+const { getRandomQuote, getRandomInt } = require('./functions');
 
 const options = {
   webHook: {
@@ -17,37 +20,35 @@ const options = {
   }
 };
 
-// for deployment
-const bot = new TelegramBot(token, options);
-
 // for development
-// const bot = new TelegramBot(token, { polling: true });
+// const bot = new TelegramBot(BOT_KEY, { polling: true });
 
 // for deployment
-bot.setWebHook(`${url}/bot${token}`);
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
-}
+const bot = new TelegramBot(BOT_KEY, options);
+bot.setWebHook(`${APP_URL}/bot${token}`);
 
 bot.on('message', msg => {
-  if (msg.text.toLowerCase() === 'gianni') {
-    axios
-      .get('https://www.googleapis.com/customsearch/v1', {
-        params: {
-          key: api_key,
-          cx: search_engine_id,
-          q: 'gianni de michelis',
-          searchType: 'image'
-        }
-      })
-      .then(({ data }) => {
-        bot.sendPhoto(msg.chat.id, data.items[getRandomInt(10)].link);
-      })
-      .catch(err => console.log(err));
-  }
+  if (msg.chat.id == MY_CHAT_ID || msg.chat.id == AC_CHAT_ID) {
+    if (msg.text.toLowerCase() === 'gianni') {
+      axios
+        .get('https://www.googleapis.com/customsearch/v1', {
+          params: {
+            key: SEARCH_API_KEY,
+            cx: SEARCH_ID,
+            q: 'gianni de michelis',
+            searchType: 'image'
+          }
+        })
+        .then(({ data }) => {
+          bot.sendPhoto(msg.chat.id, data.items[getRandomInt(10)].link);
+        })
+        .catch(err => console.log(err));
+    }
 
-  if (msg.text.toLowerCase() === 'gianni parla') {
-    bot.sendMessage(msg.chat.id, getRandomQuote());
+    if (msg.text.toLowerCase() === 'gianni parla') {
+      bot.sendMessage(msg.chat.id, getRandomQuote());
+    }
+  } else {
+    return;
   }
 });

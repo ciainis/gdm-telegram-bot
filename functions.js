@@ -1,7 +1,7 @@
 const quotes = [
-  "La cultura è il petrolio d'Italia, e deve essere sfrutta",
-  'Sono un nullatenente ad alto reddito',
-  "Qui a Venezia non c'è nessuna Tangentopoli, non è come a Milanpo",
+  "La cultura è il petrolio d'Italia, e deve essere sfrutta.",
+  'Sono un nullatenente ad alto reddito.',
+  "Qui a Venezia non c'è nessuna Tangentopoli, non è come a Milano.",
   'Scomparso il comunismo, la gente non ha più motivo di sopportare una tassa impropria sulla democrazia.',
   "Lungo l'intero arco della storia dell'Italia repubblicana, De Martino è stato non solo una delle figure più eminenti del movimento socialista, ma altresì uno dei protagonisti principali della vita democratica del Paese.",
   'Il rispetto senza condizioni dell\' "altro" è un obiettivo, credo, rappresenti un punto fermo non solo per la salvaguardia, legittima e indiscutibile, dei valori e delle regole su cui la Massoneria fonda la propria esistenza, ma, più in generale, per la difesa di un mondo in cui la libertà, la scelta di un\'idea e di un cammino di vita, siano fruibili senza limiti e condizionamenti di alcun genere.',
@@ -29,6 +29,10 @@ const quotes = [
   "Rocco Buttiglione ha l'insopportabile pretesa di apparire filosofo quando è al massimo professore di filosofia. E la cosa vale anche per Cacciari."
 ];
 
-module.exports = function() {
+module.exports.getRandomQuote = function() {
   return quotes[Math.floor(Math.random() * Math.floor(quotes.length))];
+};
+
+module.exports.getRandomInt = function(max) {
+  return Math.floor(Math.random() * Math.floor(max));
 };
