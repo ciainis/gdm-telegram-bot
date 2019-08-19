@@ -9,6 +9,8 @@ const url = process.env.APP_URL;
 const api_key = process.env.SEARCH_API_KEY;
 const search_engine_id = process.env.SEARCH_ID;
 
+const getRandomQuote = require('/quotes');
+
 const options = {
   webHook: {
     port: process.env.PORT
@@ -29,7 +31,7 @@ function getRandomInt(max) {
 }
 
 bot.on('message', msg => {
-  if (msg.text === 'gianni') {
+  if (msg.text.toLowerCase() === 'gianni') {
     axios
       .get('https://www.googleapis.com/customsearch/v1', {
         params: {
@@ -43,5 +45,9 @@ bot.on('message', msg => {
         bot.sendPhoto(msg.chat.id, data.items[getRandomInt(10)].link);
       })
       .catch(err => console.log(err));
+  }
+
+  if (msg.text.toLowerCase() === 'gianni parla') {
+    bot.sendMessage(msg.chat.id, getRandomQuote());
   }
 });
