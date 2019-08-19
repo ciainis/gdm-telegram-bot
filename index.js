@@ -41,7 +41,7 @@ bot.on('message', msg => {
         }
       })
       .then(({ data }) => {
-        console.log(data);
+        bot.sendMessage(msg.chat.id, 'yo!');
         bot.sendPhoto(msg.chat.id, data.items[getRandomInt(100)].link);
       })
       .catch(err => console.log(err));
