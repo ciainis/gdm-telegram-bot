@@ -28,10 +28,6 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-// bot.on('message', msg => {
-//   bot.sendMessage(msg.chat.id, 'yo!');
-// });
-
 bot.on('message', msg => {
   if (msg.text === 'gianni') {
     axios
@@ -40,12 +36,10 @@ bot.on('message', msg => {
           key: api_key,
           cx: search_engine_id,
           q: 'gianni de michelis',
-          searchType: 'image',
-          num: 10
+          searchType: 'image'
         }
       })
       .then(({ data }) => {
-        bot.sendMessage(msg.chat.id, 'yo!');
         bot.sendPhoto(msg.chat.id, data.items[getRandomInt(10)].link);
       })
       .catch(err => console.log(err));
