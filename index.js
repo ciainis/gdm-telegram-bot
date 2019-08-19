@@ -40,9 +40,10 @@ bot.on('message', msg => {
           num: 100
         }
       })
-      .then(({ data }) =>
-        bot.sendPhoto(msg.chat.id, data.items[getRandomInt(100)].link)
-      )
+      .then(({ data }) => {
+        console.log(data);
+        bot.sendPhoto(msg.chat.id, data.items[getRandomInt(100)].link);
+      })
       .catch(err => console.log(err));
   }
 });
