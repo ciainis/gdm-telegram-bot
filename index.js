@@ -1,18 +1,14 @@
 const dotenv = require('dotenv');
 dotenv.config();
-const axios = require('axios');
 const TelegramBot = require('node-telegram-bot-api');
 
-const {
-  BOT_KEY,
-  APP_URL,
-  SEARCH_API_KEY,
-  SEARCH_ID,
-  AC_CHAT_ID,
-  MY_CHAT_ID
-} = process.env;
+const { BOT_KEY, APP_URL, AC_CHAT_ID, MY_CHAT_ID } = process.env;
 
-const { getRandomQuote, getRandomInt } = require('./functions');
+const {
+  getRandomInt,
+  getRandomPhrase,
+  getRandomPhoto
+} = require('./functions');
 
 const options = {
   webHook: {
@@ -27,28 +23,26 @@ const options = {
 const bot = new TelegramBot(BOT_KEY, options);
 bot.setWebHook(`${APP_URL}/bot${BOT_KEY}`);
 
+const sendPhoto = async chatId => {
+  bot.sendPhoto(chatId, await getRandomPhoto());
+};
+
+const saySomething = async chatId =>
+  bot.sendMessage(chatId, await getRandomPhrase());
+
 bot.on('message', msg => {
   if (msg.chat.id == MY_CHAT_ID || msg.chat.id == AC_CHAT_ID) {
     if (msg.text.toLowerCase() === 'gianni') {
-      axios
-        .get('https://www.googleapis.com/customsearch/v1', {
-          params: {
-            key: SEARCH_API_KEY,
-            cx: SEARCH_ID,
-            q: 'gianni de michelis',
-            searchType: 'image'
-          }
-        })
-        .then(({ data }) => {
-          bot.sendPhoto(msg.chat.id, data.items[getRandomInt(10)].link);
-        })
-        .catch(err => console.log(err));
-    }
-
-    if (msg.text.toLowerCase() === 'gianni parla') {
-      bot.sendMessage(msg.chat.id, getRandomQuote());
-    }
-  } else {
-    return;
+      sendPhoto(msg.chat.id);
+    } else if (msg.text.toLowerCase() === 'gianni parla') {
+      saySomething(msg.chat.id);
+    } else return;
   }
 });
+
+setInterval(() => {
+  const randomInt = getRandomInt(5);
+  if (randomInt === 1) {
+    saySomething(AC_CHAT_ID);
+  }
+}, 600000);
