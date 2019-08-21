@@ -40,7 +40,7 @@ const saySomething = async (chatId, user = null) => {
 bot.on('text', msg => {
   if (
     msg.text.toLowerCase() === 'gianni parla' ||
-    (msg.entites && msg.entities[0].type === 'mention')
+    (msg.entities && msg.entities[0].type === 'mention')
   ) {
     saySomething(msg.chat.id, msg.from.first_name);
   } else if (msg.text.toLowerCase() === 'gianni foto') {
