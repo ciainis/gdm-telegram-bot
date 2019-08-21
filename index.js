@@ -31,12 +31,14 @@ const saySomething = async chatId =>
   bot.sendMessage(chatId, await getRandomPhrase());
 
 bot.on('message', msg => {
+  if (msg.text.toLowerCase() === 'gianni parla') {
+    saySomething(msg.chat.id);
+  }
+
   if (msg.chat.id == MY_CHAT_ID || msg.chat.id == AC_CHAT_ID) {
-    if (msg.text.toLowerCase() === 'gianni') {
+    if (msg.text.toLowerCase() === 'gianni foto') {
       sendPhoto(msg.chat.id);
-    } else if (msg.text.toLowerCase() === 'gianni parla') {
-      saySomething(msg.chat.id);
-    } else return;
+    }
   }
 });
 
