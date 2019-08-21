@@ -10,6 +10,8 @@ const {
   getRandomPhoto
 } = require('./functions');
 
+const getRandomOpening = require('./openings');
+
 const options = {
   webHook: {
     port: process.env.PORT
@@ -27,12 +29,21 @@ const sendPhoto = async chatId => {
   bot.sendPhoto(chatId, await getRandomPhoto());
 };
 
-const saySomething = async chatId =>
-  bot.sendMessage(chatId, await getRandomPhrase());
+const saySomething = async (chatId, user = null) => {
+  const phrase = await getRandomPhrase();
 
-bot.on('message', msg => {
+  user
+    ? bot.sendMessage(chatId, `${getRandomOpening()} ${user}. ${phrase}`)
+    : bot.sendMessage(chatId, phrase);
+};
+
+bot.on('text', msg => {
   if (msg.text.toLowerCase() === 'gianni parla') {
     saySomething(msg.chat.id);
+  }
+
+  if (msg.entities[0].type === 'mention') {
+    saySomething(msg.chat.id, msg.from.first_name);
   }
 
   if (msg.chat.id == MY_CHAT_ID || msg.chat.id == AC_CHAT_ID) {
