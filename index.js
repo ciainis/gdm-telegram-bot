@@ -19,11 +19,11 @@ const options = {
 };
 
 // for development
-// const bot = new TelegramBot(BOT_KEY, { polling: true });
+const bot = new TelegramBot(BOT_KEY, { polling: true });
 
 // for deployment
-const bot = new TelegramBot(BOT_KEY, options);
-bot.setWebHook(`${APP_URL}/bot${BOT_KEY}`);
+// const bot = new TelegramBot(BOT_KEY, options);
+// bot.setWebHook(`${APP_URL}/bot${BOT_KEY}`);
 
 const sendPhoto = async chatId => {
   bot.sendPhoto(chatId, await getRandomPhoto());
@@ -38,20 +38,19 @@ const saySomething = async (chatId, user = null) => {
 };
 
 bot.on('text', msg => {
-  if (msg.text.toLowerCase() === 'gianni parla') {
-    saySomething(msg.chat.id);
-  }
-
-  if (msg.entities[0].type === 'mention') {
+  if (
+    msg.text.toLowerCase() === 'gianni parla' ||
+    (msg.entites && msg.entities[0].type === 'mention')
+  ) {
     saySomething(msg.chat.id, msg.from.first_name);
-  }
-
-  if (msg.chat.id == MY_CHAT_ID || msg.chat.id == AC_CHAT_ID) {
-    if (msg.text.toLowerCase() === 'gianni foto') {
+  } else if (msg.text.toLowerCase() === 'gianni foto') {
+    if (msg.chat.id == MY_CHAT_ID || msg.chat.id == AC_CHAT_ID) {
       sendPhoto(msg.chat.id);
     }
   }
 });
+
+bot.on('polling_error', err => console.log(err));
 
 setInterval(() => {
   const randomInt = getRandomInt(5);
