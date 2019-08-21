@@ -39,8 +39,9 @@ const saySomething = async (chatId, user = null) => {
 
 bot.on('text', msg => {
   if (
-    msg.text.toLowerCase() === 'gianni parla' ||
-    (msg.entities && msg.entities[0].type === 'mention')
+    msg.entities &&
+    msg.entities[0].type === 'mention' &&
+    msg.text.includes('@GianniDM_bot')
   ) {
     saySomething(msg.chat.id, msg.from.first_name);
   } else if (msg.text.toLowerCase() === 'gianni foto') {
