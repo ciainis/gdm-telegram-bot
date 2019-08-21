@@ -19,11 +19,11 @@ const options = {
 };
 
 // for development
-const bot = new TelegramBot(BOT_KEY, { polling: true });
+// const bot = new TelegramBot(BOT_KEY, { polling: true });
 
 // for deployment
-// const bot = new TelegramBot(BOT_KEY, options);
-// bot.setWebHook(`${APP_URL}/bot${BOT_KEY}`);
+const bot = new TelegramBot(BOT_KEY, options);
+bot.setWebHook(`${APP_URL}/bot${BOT_KEY}`);
 
 const sendPhoto = async chatId => {
   bot.sendPhoto(chatId, await getRandomPhoto());
