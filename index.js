@@ -25,8 +25,13 @@ const options = {
 const bot = new TelegramBot(BOT_KEY, options);
 bot.setWebHook(`${APP_URL}/bot${BOT_KEY}`);
 
-const sendPhoto = async chatId => {
-  bot.sendPhoto(chatId, await getRandomPhoto());
+const sendPhoto = async (chatId, text) => {
+  const searchText = text
+    .split(' ')
+    .splice(2)
+    .join(' ');
+
+  bot.sendPhoto(chatId, await getRandomPhoto(searchText));
 };
 
 const saySomething = async (chatId, user = null) => {
@@ -41,13 +46,15 @@ bot.on('text', msg => {
   if (
     msg.entities &&
     msg.entities[0].type === 'mention' &&
-    msg.text.includes('@GianniDM_bot')
+    msg.text.toLowerCase().startsWith('@giannidm_bot foto')
+  ) {
+    sendPhoto(msg.chat.id, msg.text);
+  } else if (
+    msg.entities &&
+    msg.entities[0].type === 'mention' &&
+    msg.text.toLowerCase().includes('@giannidm_bot')
   ) {
     saySomething(msg.chat.id, msg.from.first_name);
-  } else if (msg.text.toLowerCase() === 'gianni foto') {
-    if (msg.chat.id == MY_CHAT_ID || msg.chat.id == AC_CHAT_ID) {
-      sendPhoto(msg.chat.id);
-    }
   }
 });
 

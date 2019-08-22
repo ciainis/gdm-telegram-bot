@@ -10,13 +10,13 @@ const getRandomPhrase = () => {
     .catch(err => console.log(err));
 };
 
-const getRandomPhoto = () => {
+const getRandomPhoto = searchText => {
   return axios
     .get('https://www.googleapis.com/customsearch/v1', {
       params: {
         key: SEARCH_API_KEY,
         cx: SEARCH_ID,
-        q: 'gianni de michelis',
+        q: `${searchText}`,
         searchType: 'image'
       }
     })
