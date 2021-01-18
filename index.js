@@ -31,17 +31,19 @@ const sendPhoto = async (chatId, text) => {
   bot.sendPhoto(chatId, await getRandomPhoto(searchText));
 };
 
-const saySomething = async (chatId, user = null, old = false) => {
+const saySomething = async (chatId, user = null) => {
   let phrase;
-
-  const random = Math.random();
-  if (random >= 0.1 && old) {
-    phrase = 'OLD';
-  } else {
-    prase = await getRandomPhrase();
-  }
+  const phrase = await getRandomPhrase();
 
   user ? bot.sendMessage(chatId, phrase) : bot.sendMessage(chatId, phrase);
+};
+
+const sayOld = (chatId) => {
+  const random = Math.random();
+
+  if (random >= 0.2) {
+    bot.sendMessage(chatId, 'OLD');
+  }
 };
 
 bot.on('text', (msg) => {
@@ -56,7 +58,9 @@ bot.on('text', (msg) => {
     msg.entities[0].type === 'mention' &&
     msg.text.toLowerCase().includes('@giannidm_bot')
   ) {
-    saySomething(msg.chat.id, msg.from.first_name, true);
+    saySomething(msg.chat.id, msg.from.first_name);
+  } else {
+    sayOld(msg.chat.id);
   }
 });
 
