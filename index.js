@@ -46,7 +46,7 @@ const sayOld = (chatId) => {
   }
 };
 
-bot.on('text', (msg) => {
+bot.on('message', (msg) => {
   if (
     msg.entities &&
     msg.entities[0].type === 'mention' &&
