@@ -19,11 +19,11 @@ const options = {
 };
 
 // for development
-// const bot = new TelegramBot(BOT_KEY, { polling: true });
+const bot = new TelegramBot(BOT_KEY, { polling: true });
 
 // for deployment
-const bot = new TelegramBot(BOT_KEY, options);
-bot.setWebHook(`${APP_URL}/bot${BOT_KEY}`);
+// const bot = new TelegramBot(BOT_KEY, options);
+// bot.setWebHook(`${APP_URL}/bot${BOT_KEY}`);
 
 const sendPhoto = async (chatId, text) => {
   const searchText = text.split(' ').splice(2).join(' ');
@@ -32,7 +32,6 @@ const sendPhoto = async (chatId, text) => {
 };
 
 const saySomething = async (chatId, user = null) => {
-  let phrase;
   const phrase = await getRandomPhrase();
 
   user ? bot.sendMessage(chatId, phrase) : bot.sendMessage(chatId, phrase);
@@ -46,7 +45,7 @@ const sayOld = (chatId) => {
   }
 };
 
-bot.on('message', (msg) => {
+bot.on('text', (msg) => {
   if (
     msg.entities &&
     msg.entities[0].type === 'mention' &&
