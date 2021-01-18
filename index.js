@@ -40,7 +40,7 @@ const saySomething = async (chatId, user = null) => {
 const sayOld = (chatId) => {
   const random = Math.random();
 
-  if (random >= 0.5) {
+  if (random >= 0.1) {
     bot.sendMessage(chatId, 'OLD');
   }
 };
