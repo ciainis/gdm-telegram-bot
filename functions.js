@@ -18,9 +18,9 @@ const saySomething = async (chatId, user = null) => {
 const sayOld = (chatId) => {
   const random = Math.random();
 
-  // if (random >= 0.9) {
-  gianni.sendMessage(chatId, 'OLD');
-  // }
+  if (random >= 0.9) {
+    gianni.sendMessage(chatId, 'OLD');
+  }
 };
 
 module.exports = { sendPhoto, saySomething, sayOld };
