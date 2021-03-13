@@ -1,51 +1,12 @@
 const dotenv = require('dotenv');
 dotenv.config();
-const TelegramBot = require('node-telegram-bot-api');
 
-const { BOT_KEY, APP_URL, AC_CHAT_ID, MY_CHAT_ID } = process.env;
+const { AC_CHAT_ID, MY_CHAT_ID } = process.env;
+const { getRandomInt } = require('./helpers');
+const { sendPhoto, saySomething, sayOld } = require('./functions');
+const gianni = require('./gianni');
 
-const {
-  getRandomInt,
-  getRandomPhrase,
-  getRandomPhoto,
-} = require('./functions');
-
-const getRandomOpening = require('./openings');
-
-const options = {
-  webHook: {
-    port: process.env.PORT,
-  },
-};
-
-// for development
-// const bot = new TelegramBot(BOT_KEY, { polling: true });
-
-// for deployment
-const bot = new TelegramBot(BOT_KEY, options);
-bot.setWebHook(`${APP_URL}/bot${BOT_KEY}`);
-
-const sendPhoto = async (chatId, text) => {
-  const searchText = text.split(' ').splice(2).join(' ');
-
-  bot.sendPhoto(chatId, await getRandomPhoto(searchText));
-};
-
-const saySomething = async (chatId, user = null) => {
-  const phrase = await getRandomPhrase();
-
-  user ? bot.sendMessage(chatId, phrase) : bot.sendMessage(chatId, phrase);
-};
-
-const sayOld = (chatId) => {
-  const random = Math.random();
-
-  if (random >= 0.9) {
-    bot.sendMessage(chatId, 'OLD');
-  }
-};
-
-bot.on('text', (msg) => {
+gianni.on('text', (msg) => {
   if (
     msg.entities &&
     msg.entities[0].type === 'mention' &&
@@ -63,11 +24,11 @@ bot.on('text', (msg) => {
   }
 });
 
-bot.on('polling_error', (err) => console.log(err));
+gianni.on('polling_error', (err) => console.log(err));
 
-setInterval(() => {
-  const randomInt = getRandomInt(5);
-  if (randomInt === 1) {
-    saySomething(AC_CHAT_ID);
-  }
-}, 600000);
+// setInterval(() => {
+//   const randomInt = getRandomInt(5);
+//   if (randomInt === 1) {
+//     saySomething(AC_CHAT_ID);
+//   }
+// }, 600000);

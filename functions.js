@@ -1,27 +1,26 @@
-const axios = require('axios');
-const { SEARCH_API_KEY, SEARCH_ID } = process.env;
+const gianni = require('./gianni');
+const { getRandomPhrase, getRandomPhoto } = require('./api');
 
-const getRandomInt = max => Math.floor(Math.random() * Math.floor(max));
+const sendPhoto = async (chatId, text) => {
+  const searchText = text.split(' ').splice(2).join(' ');
 
-const getRandomPhrase = () => {
-  return axios
-    .get('http://facciamocome.org/generate')
-    .then(({ data }) => (phrase = data.phrase))
-    .catch(err => console.log(err));
+  gianni.sendPhoto(chatId, await getRandomPhoto(searchText));
 };
 
-const getRandomPhoto = searchText => {
-  return axios
-    .get('https://www.googleapis.com/customsearch/v1', {
-      params: {
-        key: SEARCH_API_KEY,
-        cx: SEARCH_ID,
-        q: `${searchText}`,
-        searchType: 'image'
-      }
-    })
-    .then(({ data }) => data.items[getRandomInt(10)].link)
-    .catch(err => console.log(err));
+const saySomething = async (chatId, user = null) => {
+  const phrase = await getRandomPhrase();
+
+  user
+    ? gianni.sendMessage(chatId, phrase)
+    : gianni.sendMessage(chatId, phrase);
 };
 
-module.exports = { getRandomInt, getRandomPhoto, getRandomPhrase };
+const sayOld = (chatId) => {
+  const random = Math.random();
+
+  // if (random >= 0.9) {
+  gianni.sendMessage(chatId, 'OLD');
+  // }
+};
+
+module.exports = { sendPhoto, saySomething, sayOld };
