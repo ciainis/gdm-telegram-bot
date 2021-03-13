@@ -10,10 +10,10 @@ const options =
       }
     : { polling: true };
 
-const gianni = new TelegramBot(BOT_KEY, options);
+const gdm = new TelegramBot(BOT_KEY, options);
 
 if (process.env.NODE_ENV == 'production') {
-  gianni.setWebHook(`${APP_URL}/bot${BOT_KEY}`);
+  gdm.setWebHook(`${APP_URL}/bot${BOT_KEY}`);
 }
 
-module.exports = gianni;
+module.exports = gdm;

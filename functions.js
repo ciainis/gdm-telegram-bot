@@ -1,25 +1,23 @@
-const gianni = require('./gianni');
+const gdm = require('./gdm');
 const { getRandomPhrase, getRandomPhoto } = require('./api');
 
 const sendPhoto = async (chatId, text) => {
   const searchText = text.split(' ').splice(2).join(' ');
 
-  gianni.sendPhoto(chatId, await getRandomPhoto(searchText));
+  gdm.sendPhoto(chatId, await getRandomPhoto(searchText));
 };
 
 const saySomething = async (chatId, user = null) => {
   const phrase = await getRandomPhrase();
 
-  user
-    ? gianni.sendMessage(chatId, phrase)
-    : gianni.sendMessage(chatId, phrase);
+  user ? gdm.sendMessage(chatId, phrase) : gdm.sendMessage(chatId, phrase);
 };
 
 const sayOld = (chatId) => {
   const random = Math.random();
 
   if (random >= 0.9) {
-    gianni.sendMessage(chatId, 'OLD');
+    gdm.sendMessage(chatId, 'OLD');
   }
 };
 

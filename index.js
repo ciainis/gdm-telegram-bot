@@ -4,9 +4,9 @@ dotenv.config();
 const { AC_CHAT_ID, MY_CHAT_ID } = process.env;
 const { getRandomInt } = require('./helpers');
 const { sendPhoto, saySomething, sayOld } = require('./functions');
-const gianni = require('./gianni');
+const gdm = require('./gdm');
 
-gianni.on('text', (msg) => {});
+gdm.on('text', (msg) => {});
 
 setInterval(() => {
   const randomInt = getRandomInt(5);
@@ -16,4 +16,4 @@ setInterval(() => {
   }
 }, 6000000);
 
-gianni.on('polling_error', (err) => console.log(err));
+gdm.on('polling_error', (err) => console.log(err));
