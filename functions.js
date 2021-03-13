@@ -7,10 +7,9 @@ const sendPhoto = async (chatId, text) => {
   gdm.sendPhoto(chatId, await getRandomPhoto(searchText));
 };
 
-const saySomething = async (chatId, user = null) => {
+const saySomething = async (chatId) => {
   const phrase = await getRandomPhrase();
-
-  user ? gdm.sendMessage(chatId, phrase) : gdm.sendMessage(chatId, phrase);
+  gdm.sendMessage(chatId, phrase);
 };
 
 const sayOld = (chatId) => {
