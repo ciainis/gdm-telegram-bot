@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "dotenv": "^8.1.0",
+    "node-schedule": "^2.0.0",
     "node-telegram-bot-api": "^0.30.0"
   },
   "engines": {
